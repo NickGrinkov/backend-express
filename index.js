@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import Post from './Post.js';
+import router from './router.js'
 
 const PORT = 5000;
 const DB_URL = `mongodb+srv://Nick:12345678Nick@cluster0.yreqnqo.mongodb.net/?retryWrites=true&w=majority`;
@@ -8,17 +8,7 @@ const DB_URL = `mongodb+srv://Nick:12345678Nick@cluster0.yreqnqo.mongodb.net/?re
 const app = express();
 
 app.use(express.json());
-
-app.post('/', async (req, res) => {
-    try {
-        const { author, title, content, picture } = req.body
-        const post = await Post.create({ author, title, content, picture })
-        res.status(200).json(post)
-    } catch (error) {
-        res.status(500).json(error)
-    }
-    
-})
+app.use('/api', router);
 
 const startApp = async () => {
     try {
